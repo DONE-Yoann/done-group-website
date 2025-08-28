@@ -1,16 +1,16 @@
 ---
-eyebrow: "À propos"
-title: "Qui sommes‑nous ?"
-description: "Équipe pluridisciplinaire orientée résultats, en veille permanente sur les technologies d'automatisation, d'IT industrielle et de fabrication. Objectif : sécuriser vos délais, coûts et performances."
-
+eyebrow: À propos
+title: Qui sommes‑nous ?
+description: "Équipe pluridisciplinaire orientée résultats, en veille permanente
+  sur les technologies d'automatisation, d'IT industrielle et de fabrication.
+  Objectif : sécuriser vos délais, coûts et performances."
 features:
-  - "Expertise technique reconnue"
-  - "Accompagnement sur mesure"
-  - "Innovation continue"
-
+  - Expertise technique reconnue
+  - Accompagnement sur mesure
+  - Innovation continue
 stats:
-  number: "128+"
-  label: "Clients accompagnés"
+  number: 128+
+  label: Clients accompagnés
 ---
 
 # Section À propos
@@ -28,6 +28,7 @@ Cette section présente l'équipe DONE Group et son approche.
 ## Mission
 
 Sécuriser vos délais, coûts et performances grâce à notre expertise en :
+
 - Technologies d'automatisation
 - IT industrielle
 - Fabrication et intégration
