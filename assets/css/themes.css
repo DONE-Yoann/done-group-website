@@ -1,0 +1,195 @@
+/* ===== SYSTÈME DE THÈMES MODERNE ===== */
+
+/* Variables globales pour les couleurs */
+:root {
+  /* Couleurs primaires */
+  --primary-50: #fff5f5;
+  --primary-100: #fed7d7;
+  --primary-200: #feb2b2;
+  --primary-300: #fc8181;
+  --primary-400: #f56565;
+  --primary-500: #e53e3e;
+  --primary-600: #c53030;
+  --primary-700: #9b2c2c;
+  --primary-800: #742a2a;
+  --primary-900: #4a1c1c;
+
+  /* Couleurs secondaires (cyan) */
+  --secondary-50: #ecfeff;
+  --secondary-100: #cffafe;
+  --secondary-200: #a5f3fc;
+  --secondary-300: #67e8f9;
+  --secondary-400: #22d3ee;
+  --secondary-500: #06b6d4;
+  --secondary-600: #0891b2;
+  --secondary-700: #0e7490;
+  --secondary-800: #155e75;
+  --secondary-900: #164e63;
+
+  /* Couleurs d'accent (violet) */
+  --accent-50: #faf5ff;
+  --accent-100: #f3e8ff;
+  --accent-200: #e9d5ff;
+  --accent-300: #d8b4fe;
+  --accent-400: #c084fc;
+  --accent-500: #a855f7;
+  --accent-600: #9333ea;
+  --accent-700: #7c3aed;
+  --accent-800: #6b21a8;
+  --accent-900: #581c87;
+}
+
+/* THÈME LIGHT */
+.light {
+  /* Couleurs de base */
+  --color-background: #ffffff;
+  --color-background-secondary: #f8fafc;
+  --color-background-tertiary: #f1f5f9;
+  --color-surface: #ffffff;
+  --color-surface-secondary: rgba(248, 250, 252, 0.8);
+  
+  /* Texte */
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-tertiary: #64748b;
+  --color-text-inverse: #ffffff;
+  
+  /* Bordures et séparateurs */
+  --color-border: #e2e8f0;
+  --color-border-secondary: #cbd5e1;
+  --color-divider: rgba(148, 163, 184, 0.2);
+  
+  /* Ombres */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.15), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.08);
+  --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.15);
+  
+  /* Header */
+  --header-background: rgba(255, 255, 255, 0.95);
+  --header-backdrop: blur(20px);
+  --header-border: rgba(226, 232, 240, 0.5);
+  --header-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+  
+  /* Cartes et surfaces */
+  --card-background: rgba(255, 255, 255, 0.95);
+  --card-border: rgba(226, 232, 240, 0.8);
+  --card-shadow: var(--shadow-lg);
+  
+  /* États interactifs */
+  --color-hover: rgba(59, 130, 246, 0.08);
+  --color-active: rgba(59, 130, 246, 0.12);
+  --color-focus: rgba(59, 130, 246, 0.2);
+}
+
+/* THÈME DARK */
+.dark {
+  /* Couleurs de base */
+  --color-background: #0a0a0b;
+  --color-background-secondary: #111113;
+  --color-background-tertiary: #1a1a1d;
+  --color-surface: #111113;
+  --color-surface-secondary: rgba(17, 17, 19, 0.8);
+  
+  /* Texte */
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-text-tertiary: #94a3b8;
+  --color-text-inverse: #0f172a;
+  
+  /* Bordures et séparateurs */
+  --color-border: #1e293b;
+  --color-border-secondary: #334155;
+  --color-divider: rgba(148, 163, 184, 0.1);
+  
+  /* Ombres */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 30px rgba(124, 58, 237, 0.3);
+  
+  /* Header */
+  --header-background: rgba(10, 10, 11, 0.95);
+  --header-backdrop: blur(20px);
+  --header-border: rgba(30, 41, 59, 0.5);
+  --header-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  
+  /* Cartes et surfaces */
+  --card-background: rgba(17, 17, 19, 0.9);
+  --card-border: rgba(30, 41, 59, 0.7);
+  --card-shadow: var(--shadow-xl);
+  
+  /* États interactifs */
+  --color-hover: rgba(124, 58, 237, 0.12);
+  --color-active: rgba(124, 58, 237, 0.18);
+  --color-focus: rgba(124, 58, 237, 0.25);
+}
+
+/* Transitions globales */
+* {
+  transition: 
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* Fond principal animé */
+body {
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dégradé de fond pour plus de style */
+.light body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    rgba(59, 130, 246, 0.02) 0%,
+    rgba(147, 51, 234, 0.02) 50%,
+    rgba(239, 68, 68, 0.02) 100%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.dark body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    rgba(124, 58, 237, 0.08) 0%,
+    rgba(6, 182, 212, 0.08) 50%,
+    rgba(239, 68, 68, 0.08) 100%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Classes utilitaires pour les thèmes */
+.theme-surface {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--card-shadow);
+}
+
+.theme-text-primary { color: var(--color-text-primary); }
+.theme-text-secondary { color: var(--color-text-secondary); }
+.theme-text-tertiary { color: var(--color-text-tertiary); }
+
+.theme-hover:hover {
+  background: var(--color-hover);
+}
+
+.theme-focus:focus {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}

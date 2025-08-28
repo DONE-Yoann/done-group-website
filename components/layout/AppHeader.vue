@@ -6,8 +6,8 @@
         <div class="brand-section">
           <div 
             class="brand-wrapper"
-            @mouseenter="showDropdown = true"
-            @mouseleave="showDropdown = false"
+            @mouseenter="handleMouseEnter"
+            @mouseleave="handleMouseLeave"
           >
             <button @click="goToHome" class="brand-logo">
               <div class="logo-icon">
@@ -23,7 +23,9 @@
             </button>
             
             <!-- Dropdown Menu SEXY -->
-            <div v-show="showDropdown" class="dropdown-menu">
+            <div v-show="showDropdown" class="dropdown-menu"
+                 @mouseenter="handleMouseEnter"
+                 @mouseleave="handleMouseLeave">
               <div class="dropdown-content">
                 <a v-for="link in navigationLinks" :key="link.label"
                    :href="link.to" 
@@ -55,6 +57,9 @@
 
         <!-- Actions de droite -->
         <div class="header-actions">
+          <!-- Theme Toggle -->
+          <ThemeToggle />
+          
           <!-- Contact CTA -->
           <a href="mailto:contact@done.group" class="contact-cta">
             <UIcon name="i-heroicons-envelope" class="w-4 h-4" />
@@ -109,14 +114,15 @@ import { useSectorNavigation } from '~/composables/useSectorNavigation'
 // Navigation state
 const { isHomeView, currentSector, goToHome } = useSectorNavigation()
 
-// Dropdown state
+// Dropdown state avec gestion du délai
 const showDropdown = ref(false)
+let dropdownTimer: NodeJS.Timeout | null = null
 
 // Navigation links avec icônes
 const navigationLinks = [
   { label: 'Accueil', to: '#accueil', icon: 'i-heroicons-home' },
   { label: 'À propos', to: '#about', icon: 'i-heroicons-building-office' },
-  { label: 'Activités', to: '#services', icon: 'i-heroicons-squares-plus' }
+  { label: 'Activités', to: '#', icon: 'i-heroicons-squares-plus' }
 ]
 
 // Mobile menu state
@@ -129,6 +135,22 @@ const toggleMobileMenu = () => {
 const closeMobileMenu = () => {
   isMobileMenuOpen.value = false
   showDropdown.value = false
+}
+
+// Gestion intelligente du dropdown avec délai
+const handleMouseEnter = () => {
+  if (dropdownTimer) {
+    clearTimeout(dropdownTimer)
+    dropdownTimer = null
+  }
+  showDropdown.value = true
+}
+
+const handleMouseLeave = () => {
+  // Délai de 500ms avant fermeture pour laisser le temps de naviguer
+  dropdownTimer = setTimeout(() => {
+    showDropdown.value = false
+  }, 500)
 }
 
 // Close dropdown when clicking outside

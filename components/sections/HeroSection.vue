@@ -1,11 +1,10 @@
 <template>
   <!-- Hero Section utilisant le CSS principal -->
-  <section class="hero-modern">
-    <div class="hero-background"></div>
-    <div class="hero-container">
+  <section class="hero-section">
+    <div class="container-custom">
       <div class="hero-content">
         <!-- Badge -->
-        <div class="hero-badge-wrapper reveal">
+        <div class="reveal">
           <div class="hero-badge">
             <UIcon :name="heroData?.badge?.icon || 'i-heroicons-bolt'" class="w-4 h-4" />
             {{ heroData?.badge?.text || "Chargement..." }}
@@ -14,7 +13,7 @@
 
         <!-- Titre principal -->
         <h1 class="hero-title reveal">
-          {{ heroData?.title?.main || "Experts en" }} <span class="text-gradient">{{ heroData?.title?.highlight || "automatisation" }}</span><br>
+          {{ heroData?.title?.main || "Experts en" }} <span style="color: var(--secondary-400);">{{ heroData?.title?.highlight || "automatisation" }}</span><br>
           {{ heroData?.title?.subtitle || "et solutions industrielles" }}
         </h1>
 
@@ -25,30 +24,28 @@
 
         <!-- Actions -->
         <div class="hero-actions reveal">
-          <button class="btn primary hero-btn-primary" @click="scrollToTarget(heroData?.actions?.primary?.target || 'services')">
+          <button class="btn btn-primary" @click="scrollToTarget(heroData?.actions?.primary?.target || 'services')">
             <UIcon :name="heroData?.actions?.primary?.icon || 'i-heroicons-rocket-launch'" class="w-5 h-5" />
             {{ heroData?.actions?.primary?.text || "Découvrir nos activités" }}
           </button>
 
-          <button class="btn ghost hero-btn-secondary" @click="scrollToTarget(heroData?.actions?.secondary?.target || 'contact')">
+          <button class="btn btn-ghost" @click="scrollToTarget(heroData?.actions?.secondary?.target || 'contact')">
             <UIcon :name="heroData?.actions?.secondary?.icon || 'i-heroicons-phone'" class="w-5 h-5" />
             {{ heroData?.actions?.secondary?.text || "Prendre rendez‑vous" }}
           </button>
         </div>
 
         <!-- Statistiques -->
-        <div class="hero-stats reveal">
-          <div class="stat-card" v-for="stat in heroData?.stats || []" :key="stat.label">
-            <div class="stat-content">
-              <div 
-                class="stat-number" 
-                :ref="stat.animated ? 'counterElement' : null"
-                :data-count-to="stat.animated ? parseInt(stat.number) : null"
-              >
-                {{ stat.animated ? '0' : stat.number }}
-              </div>
-              <div class="stat-label">{{ stat.label }}</div>
+        <div class="hero-stats reveal" data-animate-stats>
+          <div class="hero-stat" v-for="stat in heroData?.stats || []" :key="stat.label">
+            <div 
+              class="hero-stat-number" 
+              :data-count-to="stat.animated ? parseInt(stat.number) : 0"
+              :data-animated="stat.animated"
+            >
+              {{ stat.animated ? '0' : stat.number }}
             </div>
+            <div class="hero-stat-label">{{ stat.label }}</div>
           </div>
         </div>
       </div>
@@ -69,8 +66,8 @@ const heroData = ref({
   },
   stats: [
     { number: "128", label: "clients accompagnés", animated: true },
-    { number: "15+", label: "années d'expertise" },
-    { number: "6", label: "domaines d'activité" }
+    { number: "15", label: "années d'expertise", animated: true },
+    { number: "6", label: "domaines d'activité", animated: true }
   ]
 })
 
@@ -87,28 +84,55 @@ onMounted(async () => {
   }
 })
 
-// Counter animation
-const counterElement = ref<HTMLElement>()
-
-onMounted(() => {
-  // Handle animated counters
-  if (heroData?.stats) {
-    heroData.stats.forEach((stat, index) => {
-      if (stat.animated) {
-        const element = document.querySelector(`[data-count-to="${parseInt(stat.number)}"]`)
-        if (element) {
-          animateCounter(element as HTMLElement, parseInt(stat.number))
+// Animation synchronisée des compteurs (3 secondes)
+const animateCounters = (statsContainer: Element) => {
+  const counterElements = statsContainer.querySelectorAll('[data-animated="true"]')
+  const animationDuration = 3000 // 3 secondes
+  
+  counterElements.forEach((element) => {
+    const target = parseInt(element.getAttribute('data-count-to') || '0')
+    if (target > 0) {
+      let current = 0
+      const startTime = Date.now()
+      
+      const animate = () => {
+        const elapsed = Date.now() - startTime
+        const progress = Math.min(elapsed / animationDuration, 1)
+        
+        // Fonction d'easing pour une animation plus smooth
+        const easedProgress = 1 - Math.pow(1 - progress, 3)
+        current = Math.floor(easedProgress * target)
+        
+        element.textContent = current.toLocaleString('fr-FR')
+        
+        if (progress < 1) {
+          requestAnimationFrame(animate)
+        } else {
+          element.textContent = target.toLocaleString('fr-FR')
         }
       }
-    })
-  }
-  
-  // Initialize reveal animations
+      
+      animate()
+    }
+  })
+}
+
+onMounted(() => {
+  // Initialize reveal animations avec déclenchement des compteurs
   const reveals = document.querySelectorAll('.reveal')
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('is-visible')
+        
+        // Si c'est le conteneur des stats, déclencher l'animation des compteurs
+        if (entry.target.hasAttribute('data-animate-stats')) {
+          // Délai de 400ms pour que l'animation reveal se termine d'abord
+          setTimeout(() => {
+            animateCounters(entry.target)
+          }, 400)
+        }
+        
         observer.unobserve(entry.target)
       }
     })
@@ -116,19 +140,6 @@ onMounted(() => {
   
   reveals.forEach((reveal) => observer.observe(reveal))
 })
-
-const animateCounter = (element: HTMLElement, target: number) => {
-  let current = 0
-  const increment = target / 100
-  const timer = setInterval(() => {
-    current += increment
-    if (current >= target) {
-      current = target
-      clearInterval(timer)
-    }
-    element.textContent = Math.floor(current).toLocaleString('fr-FR')
-  }, 20)
-}
 
 // Navigation functions
 const scrollToTarget = (target: string) => {

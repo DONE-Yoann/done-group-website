@@ -23,8 +23,8 @@
             />
           </div>
           <div class="sector-content">
-            <h3>{{ sector.title }}</h3>
-            <p>{{ sector.description.substring(0, 120) }}...</p>
+            <h3 class="sector-title">{{ sector.title }}</h3>
+            <p class="sector-description">{{ sector.description.substring(0, 120) }}...</p>
             <div class="sector-cta">
               <span>Découvrir</span>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">

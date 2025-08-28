@@ -5,10 +5,11 @@
   left: 0;
   right: 0;
   z-index: 50;
-  background: rgba(2, 4, 32, 0.95);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  background: var(--header-background);
+  backdrop-filter: var(--header-backdrop);
+  border-bottom: 1px solid var(--header-border);
+  box-shadow: var(--header-shadow);
+  transition: all 0.3s ease;
 }
 
 .header-container {
@@ -114,30 +115,32 @@
 }
 
 .brand-name {
-  color: white;
+  color: var(--color-text-primary);
   font-weight: 900;
   font-size: 1.25rem;
   letter-spacing: 0.05em;
-  background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+  background: linear-gradient(135deg, var(--color-text-primary) 0%, var(--secondary-400) 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  transition: all 0.3s ease;
 }
 
 .brand-subtitle {
-  color: rgb(147, 197, 253);
+  color: var(--color-text-secondary);
   font-weight: 600;
   font-size: 0.875rem;
   letter-spacing: 0.025em;
   margin-top: -4px;
+  transition: color 0.3s ease;
 }
 
 .dropdown-arrow {
   width: 1rem;
   height: 1rem;
-  color: rgb(147, 197, 253);
+  color: var(--color-text-secondary);
   margin-left: 0.5rem;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .dropdown-arrow.rotated {
@@ -152,11 +155,11 @@
   margin-top: 0.5rem;
   z-index: 50;
   min-width: 220px;
-  background: rgba(2, 4, 32, 0.98);
+  background: var(--card-background);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--card-border);
   border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--card-shadow);
   animation: dropdownSlideIn 0.3s ease;
 }
 
