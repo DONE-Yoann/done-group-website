@@ -189,7 +189,7 @@ p {
   color: var(--color-text-secondary);
   margin-bottom: 1rem;
   box-shadow: var(--shadow-sm);
-  transition: all 0.3s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .hero-title {
@@ -235,7 +235,7 @@ p {
     var(--shadow-md),
     0 8px 32px rgba(0, 0, 0, 0.12),
     0 0 0 1px rgba(255, 255, 255, 0.05);
-  transition: all 0.3s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
 }
@@ -307,24 +307,61 @@ p {
 
 .sectors-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   margin-top: 3rem;
+}
+
+@media (max-width: 1024px) {
+  .sectors-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .sectors-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .sector-card {
   background: var(--card-background);
   border: 1px solid var(--card-border);
   border-radius: 1rem;
-  padding: 2rem;
+  padding: 2rem 2rem 1rem 2rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
   box-shadow: 
     var(--shadow-sm),
     0 4px 20px rgba(0, 0, 0, 0.08),
     0 0 0 1px rgba(255, 255, 255, 0.03);
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  height: fit-content;
+}
+
+.sector-card::after {
+  content: '';
+  position: absolute;
+  top: var(--mouse-y, 50%);
+  left: var(--mouse-x, 50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, var(--sector-color, var(--secondary-400)) 0%, transparent 70%);
+  border-radius: 50%;
+  opacity: 0;
+  filter: blur(40px);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: opacity 0.3s ease-out;
+  z-index: 0;
+}
+
+.sector-card:hover::after {
+  opacity: 0.15;
 }
 
 .dark .sector-card {
@@ -336,18 +373,19 @@ p {
 }
 
 .sector-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-12px) scale(1.08);
   box-shadow: 
     var(--shadow-lg),
-    0 12px 40px rgba(0, 0, 0, 0.15),
+    0 16px 48px rgba(0, 0, 0, 0.18),
     0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
 .dark .sector-card:hover {
+  transform: translateY(-12px) scale(1.08);
   box-shadow: 
     var(--shadow-lg),
-    0 12px 40px rgba(124, 58, 237, 0.2),
-    0 6px 20px rgba(221, 8, 34, 0.12),
+    0 16px 48px rgba(124, 58, 237, 0.25),
+    0 8px 24px rgba(221, 8, 34, 0.15),
     0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
@@ -358,9 +396,9 @@ p {
   left: 0;
   right: 0;
   height: 4px;
-  background: var(--secondary-400);
+  background: var(--sector-color, var(--secondary-400));
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.05s ease-out;
 }
 
 .sector-card:hover::before {
@@ -368,10 +406,20 @@ p {
 }
 
 .sector-icon {
-  width: 3rem;
-  height: 3rem;
-  margin-bottom: 1rem;
-  color: var(--secondary-400);
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 1.5rem;
+  color: var(--sector-color, var(--secondary-400));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.sector-icon-svg {
+  width: 100%;
+  height: 100%;
 }
 
 .sector-title {
@@ -379,12 +427,80 @@ p {
   font-weight: 600;
   margin-bottom: 0.75rem;
   color: var(--color-text-primary);
+  position: relative;
+  z-index: 1;
 }
 
 .sector-description {
   font-size: 0.875rem;
   color: var(--color-text-secondary);
   line-height: 1.6;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.sector-cta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--sector-color, var(--secondary-400));
+  margin-top: auto;
+  padding: 0.75rem 0 0 0;
+  border-top: 1px solid var(--color-border);
+  transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1;
+}
+
+.sector-cta svg {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 0.05s ease-out;
+}
+
+/* .sector-card:hover .sector-cta {
+  color: var(--secondary-500);
+} */
+
+.sector-card:hover .sector-cta svg {
+  transform: translateX(4px);
+}
+
+/* ========================================
+   COULEURS SECTORIELLES
+   ======================================== */
+
+/* Automatisation - Rouge primaire */
+.sector-automation {
+  --sector-color: #ff3b30;
+}
+
+/* Informatique - Bleu */
+.sector-informatique {
+  --sector-color: #1e40af;
+}
+
+/* Mécanique - Orange */
+.sector-mecanique {
+  --sector-color: #ea580c;
+}
+
+/* Construction - Vert */
+.sector-construction {
+  --sector-color: #059669;
+}
+
+/* Démolition - Rouge foncé */
+.sector-demolition {
+  --sector-color: #dc2626;
+}
+
+/* Fabrication - Jaune/Ambre */
+.sector-fabrication {
+  --sector-color: #d97706;
 }
 
 /* ========================================
@@ -495,7 +611,7 @@ p {
   border-radius: 0.5rem;
   font-weight: 500;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   border: none;
   font-size: 1rem;

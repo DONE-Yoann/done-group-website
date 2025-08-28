@@ -19,7 +19,7 @@
           <div class="sector-icon">
             <UIcon
               :name="getSectorIcon(sector.id)"
-              class="w-8 h-8"
+              class="sector-icon-svg"
             />
           </div>
           <div class="sector-content">
@@ -56,5 +56,28 @@ const getSectorIcon = (sectorId: string): string => {
   }
   return icons[sectorId as keyof typeof icons] || 'i-heroicons-squares-2x2'
 }
+
+// Effet de lueur qui suit la souris
+onMounted(() => {
+  const sectorCards = document.querySelectorAll('.sector-card')
+  
+  sectorCards.forEach((card) => {
+    const cardElement = card as HTMLElement
+    
+    cardElement.addEventListener('mousemove', (e) => {
+      const rect = cardElement.getBoundingClientRect()
+      const x = ((e.clientX - rect.left) / rect.width) * 100
+      const y = ((e.clientY - rect.top) / rect.height) * 100
+      
+      cardElement.style.setProperty('--mouse-x', `${x}%`)
+      cardElement.style.setProperty('--mouse-y', `${y}%`)
+    })
+    
+    cardElement.addEventListener('mouseleave', () => {
+      cardElement.style.setProperty('--mouse-x', '50%')
+      cardElement.style.setProperty('--mouse-y', '50%')
+    })
+  })
+})
 </script>
 
