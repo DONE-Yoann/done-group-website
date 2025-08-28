@@ -120,48 +120,47 @@ import { useSectorNavigation } from '~/composables/useSectorNavigation'
 // Navigation state
 const { isHomeView, currentSector } = useSectorNavigation()
 
-// Load content data with proper error handling
-const aboutData = ref(null)
-const contactData = ref(null)
-const footerData = ref(null)
+// Load content data with new Nuxt Studio structure
+const aboutData = ref({
+  eyebrow: "À propos",
+  title: "Qui sommes‑nous ?", 
+  description: "Équipe pluridisciplinaire orientée résultats, en veille permanente sur les technologies d'automatisation, d'IT industrielle et de fabrication. Objectif : sécuriser vos délais, coûts et performances.",
+  features: ["Expertise technique reconnue", "Accompagnement sur mesure", "Innovation continue"],
+  stats: { number: "128+", label: "Clients accompagnés" }
+})
 
-// Load content on client side
+const contactData = ref({
+  title: "Un projet industriel ?",
+  description: "Discutons de vos besoins et définissons un plan d'action pragmatique.",
+  actions: [
+    { type: "primary", text: "contact@done.group", href: "mailto:contact@done.group" },
+    { type: "ghost", text: "+33 7 45 28 75 09", href: "tel:+33745287509" }
+  ]
+})
+
+const footerData = ref({
+  brand: { name: "DONE Group", description: "Experts en automatisation et solutions industrielles" },
+  links: {
+    services: { title: "Services", items: ["Automatisation", "IT Industrielle", "Mécanique", "Construction"] },
+    sectors: { title: "Secteurs", items: ["Automobile", "Aérospatial", "Pharmaceutique", "Énergie"] }
+  },
+  contact: { title: "Contact", email: "contact@done.group", phone: "+33 7 45 28 75 09" },
+  copyright: "© 2024 DONE Group - Tous droits réservés"
+})
+
+// Try to load actual content from markdown files
 onMounted(async () => {
   try {
-    const { data: about } = await queryContent('sections/about').findOne()
-    const { data: contact } = await queryContent('sections/contact').findOne()  
-    const { data: footer } = await queryContent('sections/footer').findOne()
+    const about = await queryContent('sections/about').findOne()
+    const contact = await queryContent('sections/contact').findOne()  
+    const footer = await queryContent('sections/footer').findOne()
     
-    aboutData.value = about
-    contactData.value = contact
-    footerData.value = footer
+    if (about) aboutData.value = about
+    if (contact) contactData.value = contact
+    if (footer) footerData.value = footer
   } catch (error) {
     console.error('Error loading content:', error)
-    // Fallback data
-    aboutData.value = {
-      eyebrow: "À propos",
-      title: "Qui sommes‑nous ?",
-      description: "Équipe pluridisciplinaire orientée résultats, en veille permanente sur les technologies d'automatisation.",
-      features: ["Expertise technique reconnue", "Accompagnement sur mesure", "Innovation continue"],
-      stats: { number: "128+", label: "Clients accompagnés" }
-    }
-    contactData.value = {
-      title: "Un projet industriel ?",
-      description: "Discutons de vos besoins et définissons un plan d'action pragmatique.",
-      actions: [
-        { type: "primary", text: "contact@done.group", href: "mailto:contact@done.group" },
-        { type: "ghost", text: "+33 7 45 28 75 09", href: "tel:+33745287509" }
-      ]
-    }
-    footerData.value = {
-      brand: { name: "DONE Group", description: "Experts en automatisation et solutions industrielles" },
-      links: {
-        services: { title: "Services", items: ["Automatisation", "IT Industrielle", "Mécanique", "Construction"] },
-        sectors: { title: "Secteurs", items: ["Automobile", "Aérospatial", "Pharmaceutique", "Énergie"] }
-      },
-      contact: { title: "Contact", email: "contact@done.group", phone: "+33 7 45 28 75 09" },
-      copyright: "© 2024 DONE Group - Tous droits réservés"
-    }
+    // Keep default data
   }
 })
 
