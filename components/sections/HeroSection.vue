@@ -42,6 +42,7 @@
               class="hero-stat-number" 
               :data-count-to="stat.animated ? parseInt(stat.number) : 0"
               :data-animated="stat.animated"
+              :data-suffix="stat.suffix || ''"
             >
               {{ stat.animated ? '0' : stat.number }}
             </div>
@@ -66,31 +67,23 @@ const heroData = ref({
   },
   stats: [
     { number: "128", label: "clients accompagnés", animated: true },
-    { number: "15", label: "années d'expertise", animated: true },
+    { number: "15+", label: "années d'expertise", animated: true, suffix: "+" },
     { number: "6", label: "domaines d'activité", animated: true }
   ]
 })
 
-// Try to load content from markdown
-onMounted(async () => {
-  try {
-    const { data: hero } = await queryContent('sections/hero').findOne()
-    if (hero) {
-      heroData.value = hero
-    }
-  } catch (error) {
-    console.error('Error loading hero content:', error)
-    // Keep fallback data
-  }
-})
+// Note: queryContent n'est pas disponible dans ce contexte
+// Les données par défaut sont utilisées
 
-// Animation synchronisée des compteurs (3 secondes)
+// Animation synchronisée des compteurs (2 secondes)
 const animateCounters = (statsContainer: Element) => {
   const counterElements = statsContainer.querySelectorAll('[data-animated="true"]')
-  const animationDuration = 3000 // 3 secondes
+  const animationDuration = 2000 // 2 secondes
   
   counterElements.forEach((element) => {
     const target = parseInt(element.getAttribute('data-count-to') || '0')
+    const suffix = element.getAttribute('data-suffix') || ''
+    
     if (target > 0) {
       let current = 0
       const startTime = Date.now()
@@ -103,12 +96,12 @@ const animateCounters = (statsContainer: Element) => {
         const easedProgress = 1 - Math.pow(1 - progress, 3)
         current = Math.floor(easedProgress * target)
         
-        element.textContent = current.toLocaleString('fr-FR')
+        element.textContent = current.toLocaleString('fr-FR') + suffix
         
         if (progress < 1) {
           requestAnimationFrame(animate)
         } else {
-          element.textContent = target.toLocaleString('fr-FR')
+          element.textContent = target.toLocaleString('fr-FR') + suffix
         }
       }
       

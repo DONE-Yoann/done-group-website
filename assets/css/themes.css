@@ -14,17 +14,17 @@
   --primary-800: #742a2a;
   --primary-900: #4a1c1c;
 
-  /* Couleurs secondaires (cyan) */
-  --secondary-50: #ecfeff;
-  --secondary-100: #cffafe;
-  --secondary-200: #a5f3fc;
-  --secondary-300: #67e8f9;
-  --secondary-400: #22d3ee;
-  --secondary-500: #06b6d4;
-  --secondary-600: #0891b2;
-  --secondary-700: #0e7490;
-  --secondary-800: #155e75;
-  --secondary-900: #164e63;
+  /* Couleurs secondaires (bordeaux) */
+  --secondary-50: #faf8f8;
+  --secondary-100: #f1eded;
+  --secondary-200: #e6d9d9;
+  --secondary-300: #d4b3b3;
+  --secondary-400: #dd0822;
+  --secondary-500: #c50720;
+  --secondary-600: #a8061c;
+  --secondary-700: #8a0518;
+  --secondary-800: #6c0414;
+  --secondary-900: #4e0310;
 
   /* Couleurs d'accent (violet) */
   --accent-50: #faf5ff;
@@ -67,9 +67,9 @@
   --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.15);
   
   /* Header */
-  --header-background: rgba(255, 255, 255, 0.95);
-  --header-backdrop: blur(20px);
-  --header-border: rgba(226, 232, 240, 0.5);
+  --header-background: rgba(255, 255, 255, 0.8);
+  --header-backdrop: blur(24px);
+  --header-border: rgba(226, 232, 240, 0.3);
   --header-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
   
   /* Cartes et surfaces */
@@ -111,9 +111,9 @@
   --shadow-glow: 0 0 30px rgba(124, 58, 237, 0.3);
   
   /* Header */
-  --header-background: rgba(10, 10, 11, 0.95);
-  --header-backdrop: blur(20px);
-  --header-border: rgba(30, 41, 59, 0.5);
+  --header-background: rgba(10, 10, 11, 0.85);
+  --header-backdrop: blur(32px);
+  --header-border: rgba(30, 41, 59, 0.3);
   --header-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   
   /* Cartes et surfaces */
@@ -168,8 +168,8 @@ body {
   bottom: 0;
   background: linear-gradient(135deg, 
     rgba(124, 58, 237, 0.08) 0%,
-    rgba(6, 182, 212, 0.08) 50%,
-    rgba(239, 68, 68, 0.08) 100%);
+    rgba(221, 8, 34, 0.08) 50%,
+    rgba(168, 6, 28, 0.06) 100%);
   pointer-events: none;
   z-index: -1;
 }

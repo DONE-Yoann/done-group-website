@@ -163,8 +163,21 @@ onMounted(() => {
   }
   document.addEventListener('click', handleClickOutside)
   
+  // Gestion de l'effet scroll sur le header
+  const header = document.querySelector('.header-ultra-modern')
+  const handleScroll = () => {
+    if (window.scrollY > 50) {
+      header?.classList.add('scrolled')
+    } else {
+      header?.classList.remove('scrolled')
+    }
+  }
+  
+  document.addEventListener('scroll', handleScroll)
+  
   onUnmounted(() => {
     document.removeEventListener('click', handleClickOutside)
+    document.removeEventListener('scroll', handleScroll)
   })
 })
 </script>
