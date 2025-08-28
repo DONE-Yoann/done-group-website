@@ -82,7 +82,8 @@ export default defineNuxtConfig({
   // Configuration CSS
   css: [
     '~/assets/css/main.css',
-    '~/assets/css/components.css'
+    '~/assets/css/components.css',
+    '~/assets/css/header.css'
   ],
 
 
