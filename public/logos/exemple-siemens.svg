@@ -1,0 +1,6 @@
+<svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Simple Siemens-like logo example -->
+  <rect x="15" y="25" width="20" height="10" rx="2" fill="#009999"/>
+  <circle cx="42" cy="30" r="5" fill="#009999"/>
+  <text x="55" y="35" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">AUTOMATION</text>
+</svg>

@@ -77,10 +77,12 @@ css: [
 
 ## ⚠️ Conflits Résolus
 
-### 🩹 Problème Eyebrow
-- **Avant** : `components.css` avait `-webkit-text-fill-color: transparent`
-- **Solution** : Désactivé le CSS dans `components.css`
-- **Résultat** : `main.css` contrôle maintenant l'affichage
+### 🩹 Problème Eyebrow (RÉSOLU x2)
+- **Avant** : `components.css` + `LogoCarousel.vue` avaient `-webkit-text-fill-color: transparent`
+- **Solution** : 
+  - Désactivé le CSS dans `components.css`
+  - Supprimé la classe `.eyebrow` dupliquée dans `LogoCarousel.vue`
+- **Résultat** : `main.css` contrôle maintenant l'affichage (VERSION UNIQUE)
 
 ### 🎯 Spécificité CSS
 - **Light Mode** : `:not(.dark) .sector-card:hover` (30 points)
@@ -100,6 +102,8 @@ css: [
 - Ne pas créer de nouveaux fichiers CSS sans justification
 - Ne pas ignorer les conflits de spécificité
 - Ne pas utiliser de couleurs hardcodées
+- ⚠️ **JAMAIS redéfinir `.eyebrow` dans les composants Vue !**
+- ⚠️ **JAMAIS dupliquer les classes CSS existantes !**
 
 ## 🔍 Débogage CSS
 
@@ -115,7 +119,31 @@ css: [
 - **Éléments** : 1 point
 - **!important** : 1000 points (à éviter)
 
+## 🚫 RÈGLES STRICTES - ANTI-DUPLICATION
+
+### ⛔ INTERDICTIONS FORMELLES
+1. **JAMAIS redéfinir `.eyebrow`** dans les composants Vue
+2. **JAMAIS dupliquer** une classe CSS existante
+3. **TOUJOURS vérifier** si une classe existe avant d'en créer une nouvelle
+4. **UTILISER les classes globales** de `main.css` et `themes.css`
+
+### 🔍 Comment Vérifier les Duplications
+```bash
+# Rechercher toutes les occurrences d'une classe
+grep -r "\.eyebrow" assets/ components/
+
+# Vérifier dans quels fichiers
+grep -l "\.eyebrow" assets/css/*.css components/**/*.vue
+```
+
+### 📋 Classes Globales à Réutiliser
+- `.eyebrow` → `main.css` (SEULE VERSION AUTORISÉE)
+- `.btn`, `.btn-primary`, `.btn-ghost` → `main.css`
+- `.reveal`, `.is-visible` → `main.css`
+- Variables `--primary-500`, `--secondary-500` → `themes.css`
+
 ---
 
 **🎨 Thème Industrie 5.0 Activé ✅**  
-*Dernière mise à jour : Août 2024*
+*Dernière mise à jour : Août 2024*  
+*⚠️ Duplication CSS = INTERDIT !*

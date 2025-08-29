@@ -25,7 +25,10 @@
       "Bash(git remote add:*)",
       "Bash(git branch:*)",
       "Bash(git push:*)",
-      "Bash(git pull:*)"
+      "Bash(git pull:*)",
+      "Bash(npm run generate:*)",
+      "Bash(dir:*)",
+      "Bash(taskkill:*)"
     ],
     "deny": [],
     "ask": []

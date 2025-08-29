@@ -15,6 +15,19 @@ The project uses ESLint with Nuxt's configuration. Run linting checks with:
 - Check `.nuxt/eslint.config.mjs` for the generated ESLint configuration
 - TypeScript checking is handled automatically by Nuxt during build
 
+### Deployment for Synology DS214 NAS
+**IMPORTANT:** To deploy on the Synology DS214 NAS, always use:
+```bash
+npm run generate
+```
+This creates a static build in `.output/public/` directory that's compatible with the NAS Web Station. The build includes:
+- Complete Industrie 5.0 theme (cyan/orange/blue tech colors)
+- Optimized animations and industrial effects
+- Static HTML/CSS/JS files ready for upload
+- Total size: ~2MB (700KB compressed)
+
+See `DEPLOYMENT_NOTES.md` for detailed deployment instructions.
+
 ## Architecture Overview
 
 This is a **Nuxt 3 application** for DONE Group's corporate website, built with Vue 3, TypeScript, and Tailwind CSS.

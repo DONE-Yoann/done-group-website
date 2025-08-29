@@ -1,0 +1,8 @@
+<svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Simple Google-like logo example -->
+  <circle cx="20" cy="30" r="8" fill="#4285F4"/>
+  <circle cx="35" cy="30" r="8" fill="#EA4335"/>
+  <circle cx="50" cy="30" r="8" fill="#FBBC04"/>
+  <circle cx="65" cy="30" r="8" fill="#34A853"/>
+  <text x="80" y="35" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">CLIENT</text>
+</svg>
