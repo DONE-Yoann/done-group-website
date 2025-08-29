@@ -2,7 +2,8 @@
    COMPONENTS SPECIFIC STYLES
    ======================================== */
 
-/* Eyebrow component */
+/* Eyebrow component - DÉSACTIVÉ (utilise main.css) */
+/*
 .eyebrow {
   display: inline-block;
   font-family: var(--font-primary);
@@ -17,6 +18,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+*/
 
 /* Services Grid */
 .services-grid {

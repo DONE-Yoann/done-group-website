@@ -27,7 +27,9 @@
                   {{ aboutData?.description }}
                 </p>
                 <ul class="about-features">
-                  <li class="reveal" v-for="feature in aboutData?.features || []" :key="feature">✓ {{ feature }}</li>
+                  <li class="reveal" v-for="feature in aboutData?.features || []" :key="feature">
+                    <span class="feature-check">✓</span> {{ feature }}
+                  </li>
                 </ul>
               </div>
               <div class="about-stat reveal">
@@ -148,21 +150,8 @@ const footerData = ref({
   copyright: "© 2024 DONE Group - Tous droits réservés"
 })
 
-// Try to load actual content from markdown files
-onMounted(async () => {
-  try {
-    const about = await queryContent('sections/about').findOne()
-    const contact = await queryContent('sections/contact').findOne()  
-    const footer = await queryContent('sections/footer').findOne()
-    
-    if (about) aboutData.value = about
-    if (contact) contactData.value = contact
-    if (footer) footerData.value = footer
-  } catch (error) {
-    console.error('Error loading content:', error)
-    // Keep default data
-  }
-})
+// Content chargé depuis les données par défaut (fallback data)
+// Nuxt Content sera configuré plus tard si nécessaire
 
 // Initialize reveal animations on mount
 onMounted(() => {
