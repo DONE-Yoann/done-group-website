@@ -1,0 +1,5 @@
+<svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Simple Tesla-like logo example -->
+  <path d="M20 40V20h2l8 15 8-15h2v20h-2V25l-7 12h-2l-7-12v15h-2z" fill="#E31837"/>
+  <text x="45" y="35" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">AUTOMOTIVE</text>
+</svg>
