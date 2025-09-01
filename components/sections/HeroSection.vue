@@ -53,17 +53,13 @@
     </div>
   </section>
   
-  <!-- Logo Carousel - Section séparée -->
-  <LogoCarousel />
-  
-  <!-- Logo Carousel NuxtUI - Comparaison -->
+  <!-- Logo Carousel NuxtUI -->
   <LogoCarouselNuxtUI />
 
 </template>
 
 <script setup lang="ts">
 // Import components
-import LogoCarousel from '~/components/ui/LogoCarousel.vue'
 import LogoCarouselNuxtUI from '~/components/ui/LogoCarouselNuxtUI.vue'
 
 // Load hero content data with fallback
