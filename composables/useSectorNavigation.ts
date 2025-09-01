@@ -152,24 +152,62 @@ export const sectorsData: SectorData[] = [
 
 // État global partagé
 const currentSector = ref<SectorData | null>(null)
+const isTransitioning = ref(false)
 
 export const useSectorNavigation = () => {
   const isHomeView = computed(() => currentSector.value === null)
 
-  const goToSector = (sectorId: string) => {
-    console.log('🔄 Navigation vers secteur:', sectorId)
+  // Fonction pour scroll smooth vers le haut
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
+
+  const goToSector = async (sectorId: string) => {
     const sector = sectorsData.find(s => s.id === sectorId)
-    if (sector) {
+    if (sector && sector.id !== currentSector.value?.id) {
+      // Démarrer la transition
+      isTransitioning.value = true
+      
+      // Petit délai pour l'animation de sortie
+      await new Promise(resolve => setTimeout(resolve, 150))
+      
+      // Changer le contenu
       currentSector.value = sector
-      console.log('✅ Secteur activé:', sector.title)
-    } else {
-      console.error('❌ Secteur non trouvé:', sectorId)
+      
+      // Scroll vers le haut avec un délai pour laisser le DOM se mettre à jour
+      await nextTick()
+      scrollToTop()
+      
+      // Terminer la transition après un délai pour l'animation d'entrée
+      setTimeout(() => {
+        isTransitioning.value = false
+      }, 300)
     }
   }
 
-  const goToHome = () => {
-    console.log('🏠 Retour à l\'accueil')
-    currentSector.value = null
+  const goToHome = async () => {
+    if (currentSector.value) {
+      // Démarrer la transition
+      isTransitioning.value = true
+      
+      // Petit délai pour l'animation de sortie
+      await new Promise(resolve => setTimeout(resolve, 150))
+      
+      // Changer le contenu
+      currentSector.value = null
+      
+      // Scroll vers le haut
+      await nextTick()
+      scrollToTop()
+      
+      // Terminer la transition
+      setTimeout(() => {
+        isTransitioning.value = false
+      }, 300)
+    }
   }
 
   const getSectorColor = (sectorId: string): string => {
@@ -180,6 +218,7 @@ export const useSectorNavigation = () => {
   return {
     currentSector: readonly(currentSector),
     isHomeView,
+    isTransitioning: readonly(isTransitioning),
     goToSector,
     goToHome,
     getSectorColor,

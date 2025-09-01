@@ -1,5 +1,5 @@
 <template>
-  <section class="section sector-selector">
+  <section id="sectors" class="section sector-selector">
     <div class="container-custom">
       <div class="selector-header reveal">
         <h2>Nos domaines d'expertise</h2>
@@ -24,7 +24,7 @@
           </div>
           <div class="sector-content">
             <h3 class="sector-title">{{ sector.title }}</h3>
-            <p class="sector-description">{{ sector.description.substring(0, 120) }}...</p>
+            <p class="sector-description">{{ sector.description }}</p>
             <div class="sector-cta">
               <span>Découvrir</span>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">

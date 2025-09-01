@@ -4,12 +4,16 @@
     <AppHeader />
     
     <!-- Main Content -->
-    <main id="accueil">
-      <!-- Vue Secteur -->
-      <SectorContent v-if="!isHomeView" />
+    <main id="accueil" class="main-content" :class="{ 'transitioning': isTransitioning }">
+      <!-- Overlay de transition -->
+      <div class="transition-overlay" :class="{ 'active': isTransitioning }"></div>
       
-      <!-- Vue Accueil -->
-      <div v-else>
+      <!-- Vue Secteur -->
+      <div class="content-container" :class="{ 'fade-out': isTransitioning }">
+        <SectorContent v-if="!isHomeView" />
+        
+        <!-- Vue Accueil -->
+        <div v-else>
         <!-- Hero Section -->
         <HeroSection />
         
@@ -55,14 +59,18 @@
                   v-for="action in contactData?.actions || []" 
                   :key="action.text"
                   :href="action.href" 
-                  :class="`btn ${action.type}`"
+                  class="contact-link"
+                  :class="action.type"
                 >
+                  <UIcon v-if="action.type === 'primary'" name="i-heroicons-envelope" class="contact-icon" />
+                  <UIcon v-else name="i-heroicons-phone" class="contact-icon" />
                   {{ action.text }}
                 </a>
               </div>
             </div>
           </div>
         </section>
+        </div>
       </div>
     </main>
 
@@ -120,7 +128,7 @@ import SectorSelector from '~/components/sections/SectorSelector.vue'
 import { useSectorNavigation } from '~/composables/useSectorNavigation'
 
 // Navigation state
-const { isHomeView, currentSector } = useSectorNavigation()
+const { isHomeView, currentSector, isTransitioning } = useSectorNavigation()
 
 // Load content data with new Nuxt Studio structure
 const aboutData = ref({

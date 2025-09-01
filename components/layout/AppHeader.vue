@@ -30,7 +30,7 @@
                 <a v-for="link in navigationLinks" :key="link.label"
                    :href="link.to" 
                    class="dropdown-item"
-                   @click="closeMobileMenu">
+                   @click="handleNavClick(link, $event)">
                   <UIcon :name="link.icon" class="dropdown-icon" />
                   <span>{{ link.label }}</span>
                 </a>
@@ -45,7 +45,7 @@
           
           <!-- Breadcrumb STYLÉ -->
           <nav v-if="!isHomeView" class="breadcrumb-nav">
-            <button @click="goToHome" class="breadcrumb-home">
+            <button @click="goToActivities" class="breadcrumb-home">
               <UIcon name="i-heroicons-home" class="w-4 h-4" />
             </button>
             <UIcon name="i-heroicons-chevron-right" class="breadcrumb-sep" />
@@ -91,7 +91,7 @@
               <a v-for="link in navigationLinks" :key="link.label"
                  :href="link.to" 
                  class="mobile-nav-item"
-                 @click="closeMobileMenu">
+                 @click="handleNavClick(link, $event)">
                 <UIcon :name="link.icon" class="mobile-nav-icon" />
                 <span>{{ link.label }}</span>
               </a>
@@ -114,6 +114,29 @@ import { useSectorNavigation } from '~/composables/useSectorNavigation'
 // Navigation state
 const { isHomeView, currentSector, goToHome } = useSectorNavigation()
 
+// Fonction pour aller vers la section des activités
+const goToActivities = () => {
+  // Si on n'est pas sur la page d'accueil, y retourner d'abord
+  if (!isHomeView.value) {
+    goToHome()
+    // Attendre que la transition soit finie avant de scroller
+    setTimeout(() => {
+      scrollToSectorSelector()
+    }, 500)
+  } else {
+    // Si on est déjà sur l'accueil, scroller directement
+    scrollToSectorSelector()
+  }
+}
+
+// Fonction pour scroller vers la section SectorSelector
+const scrollToSectorSelector = () => {
+  const sectorSelector = document.querySelector('.sector-selector')
+  if (sectorSelector) {
+    sectorSelector.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+}
+
 // Dropdown state avec gestion du délai
 const showDropdown = ref(false)
 let dropdownTimer: NodeJS.Timeout | null = null
@@ -122,7 +145,7 @@ let dropdownTimer: NodeJS.Timeout | null = null
 const navigationLinks = [
   { label: 'Accueil', to: '#accueil', icon: 'i-heroicons-home' },
   { label: 'À propos', to: '#about', icon: 'i-heroicons-building-office' },
-  { label: 'Activités', to: '#', icon: 'i-heroicons-squares-plus' }
+  { label: 'Activités', to: '#sectors', icon: 'i-heroicons-squares-plus' }
 ]
 
 // Mobile menu state
@@ -135,6 +158,22 @@ const toggleMobileMenu = () => {
 const closeMobileMenu = () => {
   isMobileMenuOpen.value = false
   showDropdown.value = false
+}
+
+// Gestionnaire des clics de navigation
+const handleNavClick = (link: { label: string; to: string; icon: string }, event: Event) => {
+  event.preventDefault()
+  closeMobileMenu()
+  
+  if (link.label === 'Activités') {
+    goToActivities()
+  } else {
+    // Pour les autres liens, comportement normal
+    const target = document.querySelector(link.to)
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
 }
 
 // Gestion intelligente du dropdown avec délai
