@@ -28,7 +28,9 @@
       "Bash(git pull:*)",
       "Bash(npm run generate:*)",
       "Bash(dir:*)",
-      "Bash(taskkill:*)"
+      "Bash(taskkill:*)",
+      "Bash(del \"D:\\CLOUD\\OneDrive - DONE\\Done - Design\\SiteWeb - done.group\\Web_Done.group_v2(chatgtp)\\components\\ui\\LogoCarousel.vue\")",
+      "Bash(del \"D:\\CLOUD\\OneDrive - DONE\\Done - Design\\SiteWeb - done.group\\Web_Done.group_v2(chatgtp)\\components\\ui\\LogoCarousel.vue\")"
     ],
     "deny": [],
     "ask": []

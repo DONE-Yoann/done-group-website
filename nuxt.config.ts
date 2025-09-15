@@ -106,6 +106,13 @@ export default defineNuxtConfig({
     }
   },
 
+  // Configuration Vite pour résoudre les warnings Tailwind
+  vite: {
+    build: {
+      sourcemap: false
+    }
+  },
+
   // Configuration du développement
   devServer: {
     port: 3000

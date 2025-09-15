@@ -2,9 +2,7 @@
   <div class="logo-carousel-nuxtui-section">
     <div class="container-custom">
       <!-- NuxtUI Carousel - Always render but with different content -->
-      <div class="nuxtui-carousel-container hero-style"
-           :class="{ 'carousel-paused': isCarouselPaused }"
-           @mouseenter="pauseCarousel" @mouseleave="resumeCarousel">
+      <div class="nuxtui-carousel-container hero-style">
         
         <!-- @ts-ignore -->
         <UCarousel
@@ -22,13 +20,13 @@
           :arrows="false"
           :indicators="false"
           :autoplay="false"
-          :auto-scroll="logos.length > 0 ? { speed: isCarouselPaused ? 0 : 0.6, stopOnInteraction: false, startDelay: 0, playOnInit: true } : false"
+          :auto-scroll="logos.length > 0 ? { speed: 0.6, stopOnInteraction: false, startDelay: 0, playOnInit: true } : false"
           :loop="logos.length > 0"
           :drag-free="false"
           :duration="0"
         >
           <!-- Logo item -->
-          <div v-if="item && item.type === 'logo'" class="nuxtui-logo-item">
+          <div v-if="item && item.type === 'logo'" class="nuxtui-logo-item carousel-fade-in">
             <img 
               :src="item.url" 
               :alt="`Logo ${item.name || 'Client'}`"
@@ -37,8 +35,13 @@
             />
           </div>
           
+          <!-- Skeleton loader item -->
+          <div v-else-if="item && item.type === 'skeleton'" class="nuxtui-skeleton-item">
+            <div class="skeleton-logo"></div>
+          </div>
+          
           <!-- Message item when no logos -->
-          <div v-else-if="item && item.type === 'message'" class="carousel-message-item">
+          <div v-else-if="item && item.type === 'message'" class="carousel-message-item carousel-fade-in">
             <div class="message-content">
               <UIcon name="i-heroicons-building-office-2" class="message-icon" />
               <div class="message-text">
@@ -73,11 +76,16 @@ interface Logo {
 
 // Reactive data
 const logos = ref<Logo[]>([])
-const isCarouselPaused = ref(false)
 const carouselRef = ref()
+const isLoading = ref(true)
 
-// Carousel items - either logos or message
+// Carousel items - either logos, message, or skeleton
 const carouselItems = computed(() => {
+  if (isLoading.value) {
+    // Return skeleton items during loading
+    return Array.from({ length: 8 }, (_, i) => ({ type: 'skeleton', id: `skeleton-${i}` }))
+  }
+  
   if (logos.value.length === 0) {
     // Return a single message item
     return [{ type: 'message', id: 'no-logos-message' }]
@@ -105,10 +113,15 @@ const carouselItems = computed(() => {
 // Load logos automatically from public/logos directory
 const loadLogos = async () => {
   try {
+    isLoading.value = true
+    // Small delay to show skeleton (remove in production if needed)
+    await new Promise(resolve => setTimeout(resolve, 800))
     const data = await $fetch<Logo[]>('/api/logos')
     logos.value = data || []
   } catch (error) {
     logos.value = []
+  } finally {
+    isLoading.value = false
   }
 }
 
@@ -119,14 +132,7 @@ const handleImageError = (event: Event) => {
   img.style.display = 'none'
 }
 
-// Carousel control functions - change speed via reactive config
-const pauseCarousel = () => {
-  isCarouselPaused.value = true
-}
-
-const resumeCarousel = () => {
-  isCarouselPaused.value = false
-}
+// Carousel en défillement continu - pas de pause
 
 // Load logos on mount
 onMounted(() => {
@@ -136,11 +142,11 @@ onMounted(() => {
 
 <style scoped>
 .logo-carousel-nuxtui-section {
-  padding: 2rem 0;
+  padding: 0.5rem 0 2rem 0;
   background: var(--color-background);
-  border-top: 1px solid var(--color-border);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+  margin-top: -1rem;
 }
 
 .logo-carousel-nuxtui-section::before {
@@ -151,8 +157,8 @@ onMounted(() => {
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 30% 50%, rgba(37, 99, 235, 0.04) 0%, transparent 50%),
-    radial-gradient(circle at 70% 50%, rgba(124, 58, 237, 0.04) 0%, transparent 50%);
+    radial-gradient(circle at 25% 50%, rgba(6, 182, 212, 0.02) 0%, transparent 50%),
+    radial-gradient(circle at 75% 50%, rgba(249, 115, 22, 0.02) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
 }
@@ -160,7 +166,8 @@ onMounted(() => {
 
 /* NuxtUI Carousel Container - Hero Style */
 .nuxtui-carousel-container.hero-style {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+  margin-top: 0;
   position: relative;
   background: var(--card-background);
   border: 1px solid var(--card-border);
@@ -189,6 +196,7 @@ onMounted(() => {
   transform: translateY(-2px);
   box-shadow: var(--shadow-xl);
   border-color: var(--primary-200);
+  z-index: 10;
 }
 
 .nuxtui-carousel-container.hero-style > * {
@@ -225,21 +233,14 @@ onMounted(() => {
   touch-action: pan-y pinch-zoom;
 }
 
-/* Pause carousel on hover - CSS approach */
-.nuxtui-carousel-container.carousel-paused .nuxtui-carousel-wrapper :deep(.embla__container) {
-  animation-play-state: paused !important;
-}
-
-.nuxtui-carousel-container.carousel-paused .nuxtui-carousel-wrapper :deep(.embla__slide) {
-  animation-play-state: paused !important;
-}
+/* Carousel en défillement continu - pas de pause */
 
 .nuxtui-logo-item {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
-  height: 80px;
+  height: 120px;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -247,9 +248,9 @@ onMounted(() => {
 }
 
 .nuxtui-logo-image {
-  height: 50px;
+  height: 90px;
   width: auto;
-  max-width: 140px;
+  max-width: 250px;
   object-fit: contain;
   opacity: 0.7;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -263,8 +264,7 @@ onMounted(() => {
 
 .nuxtui-logo-item:hover .nuxtui-logo-image {
   opacity: 1;
-  transform: scale(1.6);
-  padding: 0 1rem; /* Add padding instead of margin to prevent layout shifts */
+  transform: scale(1.3);
 }
 
 /* Carousel integrated message */
@@ -273,8 +273,8 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 300px;
-  padding: 2rem;
+  min-height: 200px;
+  padding: 1.5rem;
 }
 
 .carousel-message-item .message-content {
@@ -284,6 +284,14 @@ onMounted(() => {
   gap: 1.5rem;
   text-align: center;
   max-width: 500px;
+  background: var(--card-background);
+  border: 1px solid var(--card-border);
+  border-radius: 1.5rem;
+  box-shadow: var(--shadow-lg);
+  padding: 2rem;
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .carousel-message-item .message-icon {
@@ -521,6 +529,111 @@ onMounted(() => {
 }
 
 
+/* Skeleton Loader Styles */
+.nuxtui-skeleton-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  height: 120px;
+}
+
+.skeleton-logo {
+  width: 200px;
+  height: 90px;
+  background: linear-gradient(
+    90deg,
+    var(--color-background-secondary) 25%,
+    var(--color-hover) 50%,
+    var(--color-background-secondary) 75%
+  );
+  background-size: 200% 100%;
+  border-radius: 6px;
+  animation: skeleton-shimmer 1.5s infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-logo::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: skeleton-shine 2s infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes skeleton-shine {
+  0% {
+    left: -100%;
+  }
+  50%, 100% {
+    left: 100%;
+  }
+}
+
+/* Fade-in animations */
+.carousel-fade-in {
+  animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smooth transition between states */
+.nuxtui-carousel-wrapper {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Loading state transition */
+.nuxtui-carousel-container {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark mode skeleton adjustments */
+.dark .skeleton-logo {
+  background: linear-gradient(
+    90deg,
+    rgba(55, 65, 81, 0.8) 25%,
+    rgba(75, 85, 99, 0.8) 50%,
+    rgba(55, 65, 81, 0.8) 75%
+  );
+  background-size: 200% 100%;
+}
+
+.dark .skeleton-logo::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .logo-carousel-nuxtui-section {
@@ -532,13 +645,18 @@ onMounted(() => {
   }
   
   .nuxtui-logo-item {
-    height: 60px;
+    height: 100px;
     padding: 0.75rem;
   }
   
   .nuxtui-logo-image {
-    height: 40px;
-    max-width: 120px;
+    height: 70px;
+    max-width: 200px;
+  }
+  
+  .skeleton-logo {
+    width: 160px;
+    height: 70px;
   }
 }
 
@@ -548,8 +666,13 @@ onMounted(() => {
   }
   
   .nuxtui-logo-image {
-    height: 35px;
-    max-width: 100px;
+    height: 60px;
+    max-width: 180px;
+  }
+  
+  .skeleton-logo {
+    width: 140px;
+    height: 60px;
   }
 }
 

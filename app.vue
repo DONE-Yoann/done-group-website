@@ -20,6 +20,9 @@
         <!-- Sectors Selection -->
         <SectorSelector />
 
+        <!-- Logo Carousel -->
+        <LogoCarouselNuxtUI />
+
         <!-- About Section -->
         <section id="about" class="section" v-if="aboutData">
           <div class="container-custom">
@@ -125,6 +128,7 @@ import AppHeader from '~/components/layout/AppHeader.vue'
 import HeroSection from '~/components/sections/HeroSection.vue'
 import SectorContent from '~/components/sections/SectorContent.vue'
 import SectorSelector from '~/components/sections/SectorSelector.vue'
+import LogoCarouselNuxtUI from '~/components/ui/LogoCarouselNuxtUI.vue'
 import { useSectorNavigation } from '~/composables/useSectorNavigation'
 
 // Navigation state

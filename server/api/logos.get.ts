@@ -37,7 +37,10 @@ export default defineEventHandler(async (event) => {
     
     return logos
   } catch (error) {
-    console.error('Error reading logos directory:', error)
+    // Log error in development only
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error reading logos directory:', error)
+    }
     return []
   }
 })
