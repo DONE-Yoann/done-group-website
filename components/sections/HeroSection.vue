@@ -52,15 +52,11 @@
       </div>
     </div>
   </section>
-  
-  <!-- Logo Carousel NuxtUI -->
-  <LogoCarouselNuxtUI />
 
 </template>
 
 <script setup lang="ts">
 // Import components
-import LogoCarouselNuxtUI from '~/components/ui/LogoCarouselNuxtUI.vue'
 
 // Load hero content data with fallback
 const heroData = ref({
